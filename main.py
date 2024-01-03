@@ -5,7 +5,7 @@ from pygame.math import Vector2
 class SNAKE:
     # Dessiner trois carré cote a cote
     def __init__(self):
-        self.body =  self.body = [Vector2(5, 8), Vector2(6, 8), Vector2(7, 8)]
+        self.body =  self.body = [Vector2(5, 8), Vector2(4, 8), Vector2(3, 8)]
         self.direction = Vector2(1,0)
         self.new_block = False    
     def draw_snake(self):
@@ -71,8 +71,9 @@ class MAIN:
         if not 0 <= self.snake.body[0].x < cell_number or not 0 <= self.snake.body[0].y < cell_number:
             self.game_over()
         
-        for block in self.snake[1:]:
+        for block in self.snake.body[1:]:
             if block == self.snake.body[0]:
+                self.game_over()
         
     
     def game_over(self):
@@ -101,13 +102,17 @@ while True:
         # Pour diriger le serpent avec les touches
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                main_game.snake.direction = Vector2(0,-1)
+                if main_game.snake.direction.y != 1:
+                    main_game.snake.direction = Vector2(0,-1)
             if event.key == pygame.K_DOWN:
-                main_game.snake.direction = Vector2(0,1)
+                if main_game.snake.direction.y != -1:
+                    main_game.snake.direction = Vector2(0,1)
             if event.key == pygame.K_LEFT:
-                main_game.snake.direction = Vector2(-1,0)
+                if main_game.snake.direction.x != 1:
+                    main_game.snake.direction = Vector2(-1,0)
             if event.key == pygame.K_RIGHT:
-                main_game.snake.direction = Vector2(1,0)
+                if main_game.snake.direction.x != -1:
+                    main_game.snake.direction = Vector2(1,0)
     screen.fill((175,215,70))
     main_game.draw_elements()
     pygame.display.update()
